@@ -1,6 +1,7 @@
 import sqlite3
 import os
 
+
 def initialise_db():
     # Check if datbase file exists
     if os.path.isfile("ocrtunes.db"):

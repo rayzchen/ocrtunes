@@ -7,6 +7,7 @@ def getchoice(prompt, options):
         else:
             return value
 
+
 class UserContext:
     def __init__(self):
         # Initialise attributes shared between views
@@ -21,6 +22,7 @@ class UserContext:
 
     def logged_in(self):
         return self.user is not None
+
 
 class ExitStack(Exception):
     pass

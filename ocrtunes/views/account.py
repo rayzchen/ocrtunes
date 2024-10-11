@@ -2,6 +2,7 @@ from ocrtunes.views import getchoice, ExitStack
 from ocrtunes import account
 import re
 
+
 class AccountView:
     def __init__(self, ctx):
         # Store context as attr
@@ -49,7 +50,9 @@ class AccountView:
         dob = ""
         while True:
             dob = input("Enter date of birth (DD/MM/YYYY): ").strip()
-            if not re.match(r"^(0[1-9]|[12][0-9]|3[01])/(1[0-2]|0[1-9])/(19|20)\d\d$", dob):
+            if not re.match(
+                r"^(0[1-9]|[12][0-9]|3[01])/(1[0-2]|0[1-9])/(19|20)\d\d$", dob
+            ):
                 print("Invalid format!")
             else:
                 break
