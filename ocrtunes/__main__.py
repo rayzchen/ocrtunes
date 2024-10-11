@@ -1,6 +1,8 @@
 from ocrtunes import database
 from ocrtunes.views import UserContext, ExitStack
 from ocrtunes.views.account import AccountView
+from ocrtunes.views.profile import ProfileView
+import textwrap
 
 
 def viewloop():
@@ -11,13 +13,22 @@ def viewloop():
 
     # Set up views
     account_view = AccountView(ctx)
+    profile_view = ProfileView(ctx)
+
+    print(textwrap.dedent(
+        r"""
+         _  __ _ ___       __ __
+        / \/  |_) | | ||\||_ (_
+        \_/\__| \ | |_|| ||____)
+        """
+    ))
 
     while True:
+        print()
         if not ctx.logged_in():
             account_view.display()
         else:
-            print("You are logged in as", account.get_name(db, user))
-            getchoice("Enter choice: ", [])
+            profile_view.display()
 
 
 def main():

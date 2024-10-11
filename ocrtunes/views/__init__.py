@@ -23,6 +23,9 @@ class UserContext:
     def logged_in(self):
         return self.user is not None
 
+    def logout(self):
+        self.user = None
+
 
 class ExitStack(Exception):
     pass
