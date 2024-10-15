@@ -8,6 +8,13 @@ def getchoice(prompt, options):
             return value
 
 
+def format_time(time):
+    if time > 3600:
+        return f"{time // 3600}:{time // 60 % 60}:{time % 60}"
+    else:
+        return f"{time // 60 % 60}:{time % 60}"
+
+
 class UserContext:
     def __init__(self):
         # Initialise attributes shared between views
