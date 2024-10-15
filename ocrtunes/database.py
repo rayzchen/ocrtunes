@@ -7,6 +7,7 @@ directory = os.path.join(
 )
 database_file = os.path.join(directory, "ocrtunes.db")
 schema_file = os.path.join(directory, "schema.sql")
+song_file = os.path.join(directory, "songs.sql")
 
 def initialise_db():
     # Check if datbase file exists
@@ -18,5 +19,7 @@ def initialise_db():
         # Database file not found, generating via schema
         db = sqlite3.connect(database_file)
         with open(schema_file) as f:
+            db.executescript(f.read())
+        with open(song_file) as f:
             db.executescript(f.read())
         return db
