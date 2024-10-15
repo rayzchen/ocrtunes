@@ -1,5 +1,5 @@
 from ocrtunes.views import getchoice, ExitStack
-from ocrtunes import account
+from ocrtunes.database import account
 
 
 class ProfileView:

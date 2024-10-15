@@ -2,8 +2,8 @@ import sqlite3
 import os
 
 directory = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "database"
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "model"
 )
 database_file = os.path.join(directory, "ocrtunes.db")
 schema_file = os.path.join(directory, "schema.sql")
