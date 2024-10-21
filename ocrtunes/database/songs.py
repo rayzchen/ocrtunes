@@ -19,10 +19,20 @@ def get_all_songs(db):
     return result
 
 
+def search_songs(db, query):
+    result = db.execute("SELECT id, title, artist, length FROM songs WHERE title LIKE ? ORDER BY title", [f"%{query}%"]).fetchall()
+    return result
+
+
 def get_song_info(db, song):
     # Fetch by id
     result = db.execute("SELECT title, artist, genre, length FROM songs WHERE id = ?", [song]).fetchone()
     return result
+
+
+def get_library_size(db):
+    result = db.execute("SELECT COUNT(*) FROM songs").fetchone()
+    return result[0]
 
 
 def get_artist_count(db, artist):

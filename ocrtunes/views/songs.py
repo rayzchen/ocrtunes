@@ -28,7 +28,15 @@ class SongsView:
 
     def view_all_songs(self):
         self.query = ""
-        self.setup_pages(self.process_list(songs.get_all_songs(self.ctx.db)))
+        self.setup_pages(songs.get_all_songs(self.ctx.db))
+        self.view_songs()
+
+    def search_songs(self):
+        total = songs.get_library_size(self.ctx.db)
+        print()
+        print(f"Searching {total} songs")
+        self.query = input("Enter query: ").strip()
+        self.setup_pages(songs.search_songs(self.ctx.db, self.query))
         self.view_songs()
 
     def view_songs(self):
@@ -37,9 +45,9 @@ class SongsView:
         while True:
             print()
             if not self.query:
-                print("Showing all songs")
+                print(f"Showing all songs ({len(self.songs)})")
             else:
-                print("Showing all songs matching '{self.query}'")
+                print(f"Showing all songs matching '{self.query}' ({len(self.songs)})")
             if len(self.songs) == 0:
                 print("No matching songs found")
                 break
@@ -72,7 +80,7 @@ class SongsView:
 
     def setup_pages(self, songs):
         self.page = 0
-        self.songs = songs
+        self.songs = self.process_list(songs)
         self.total_pages = math.ceil(len(songs) / self.page_length)
 
     def display_song_info(self, song):
@@ -83,7 +91,10 @@ class SongsView:
         print("Genre:", genre, f"({songs.get_genre_count(self.ctx.db, genre)})")
         print("Length:", format_time(length))
 
-        print()
         print("1) Add to playlist")
         print("2) Exit")
         choice = getchoice("Enter choice: ", ["1", "2"])
+        if choice == "1":
+            self.playlist_add_song(song)
+        elif choice == "2":
+            return
