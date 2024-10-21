@@ -7,21 +7,28 @@ class ProfileView:
         # Store context as attr
         self.ctx = ctx
 
+    def set_songs_view(self, songs_view):
+        self.songs_view = songs_view
+
     def display(self):
         # Show menu choice
         username = account.get_name(self.ctx.db, self.ctx.user)
         print("You are logged in as", username)
 
         print("1) View profile")
-        print("2) Log out")
-        choice = getchoice("Enter choice: ", ["1", "2"])
+        print("2) Browse songs")
+        print("3) Log out")
+        choice = getchoice("Enter choice: ", ["1", "2", "3"])
         if choice == "1":
             self.view_profile()
         elif choice == "2":
+            self.songs_view.display()
+        elif choice == "3":
             self.ctx.logout()
 
     def view_profile(self):
         # Display profile
+        print()
         fav_artist = account.get_fav_artist(self.ctx.db, self.ctx.user)
         fav_genre = account.get_fav_genre(self.ctx.db, self.ctx.user)
         print("Favourite artist: ", fav_artist)
@@ -40,6 +47,7 @@ class ProfileView:
             return
 
     def edit_fav_artist(self):
+        print()
         current_artist = account.get_fav_artist(self.ctx.db, self.ctx.user)
         print("Current favourite artist:", current_artist)
         new_artist = input("Enter favourite artist (leave blank to reset): ")
