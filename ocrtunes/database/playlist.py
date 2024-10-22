@@ -42,6 +42,15 @@ def create_playlist(db, user, name):
     return id
 
 
+def get_playlist_songs(db, id):
+    result = db.execute("SELECT songs FROM playlists WHERE id = ?", [id]).fetchone()
+    if not result[0]:
+        return []
+    songs = [int(id) for id in result[0].split(",")]
+    result = db.execute("SELECT id, title, artist, length FROM songs WHERE id IN ? ORDER BY title", [songs]).fetchall()
+    return result
+
+
 def rename_playlist(db, id, name):
     db.execute("UPDATE playlists SET name = ? WHERE id = ?", [name, id])
     db.commit()
@@ -51,8 +60,8 @@ def delete_playlist(db, id):
     filters = [f"{id}", f"{id},%", f"%,{id},%", f"%,{id}"]
     result = db.execute("SELECT id, playlists FROM users WHERE playlists = ? OR playlists LIKE ? OR playlists LIKE ? OR playlists LIKE ?", filters).fetchall()
     for user, playlists in result:
-        playlists = [int(id) for id in playlists.split(",")]
-        playlists.remove(id)
+        playlists = playlists.split(",")
+        playlists.remove(str(id))
         new_playlists = ",".join(playlists)
-        db.execute("UPDATE users SET playlists = ? WHERE id = ?", [new_playlists, id])
+        db.execute("UPDATE users SET playlists = ? WHERE id = ?", [new_playlists, user])
     db.commit()

@@ -3,9 +3,14 @@ from ocrtunes.database import playlist
 
 
 class PlaylistView:
+    page_length = 5
+
     def __init__(self, ctx):
         # Store context as attr
         self.ctx = ctx
+        # Pagination variables
+        self.page = 0
+        self.songs = []
 
     def display(self):
         while True:
@@ -60,13 +65,38 @@ class PlaylistView:
         print("4) Exit")
         choice = getchoice("Enter choice: ", ["1", "2", "3", "4"])
         if choice == "1":
-            pass
+            self.list_songs(id)
         elif choice == "2":
             self.rename_playlist(id)
         elif choice == "3":
             self.delete_playlist(id)
         elif choice == "4":
             return
+
+    def list_songs(self, id):
+        self.songs = playlist.get_playlist_songs(self.ctx.db, id)
+        self.page = 0
+        if not self.songs:
+            print()
+            print("No songs found")
+            return
+        while True:
+            print()
+            print(f"Total number of songs: {len(self.songs)}")
+            start = self.page * self.page_length
+            i = start
+            for song in self.songs[start: start + self.page_length]:
+                i += 1
+                print(f"{i}. " + song[1])
+            print(f"Page {self.page + 1} of {self.total_pages}")
+
+            choice = getchoice("Enter choice ([p]revious / [n]ext / [q]uit): ", ["p", "n", "q"])
+            if choice == "p":
+                self.page = (self.page - 1) % self.total_pages
+            elif choice == "n":
+                self.page = (self.page + 1) % self.total_pages
+            elif choice == "q":
+                break
 
     def rename_playlist(self, id):
         print()
