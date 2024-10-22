@@ -37,8 +37,9 @@ class ProfileView:
     def view_profile(self):
         # Display profile
         print()
-        fav_artist = account.get_fav_artist(self.ctx.db, self.ctx.user)
-        fav_genre = account.get_fav_genre(self.ctx.db, self.ctx.user)
+        name, dob, fav_artist, fav_genre = account.get_data(self.ctx.db, self.ctx.user)
+        print("Name:", name)
+        print("Date of birth:", dob)
         print("Favourite artist: ", fav_artist)
         print("Favourite genre: ", fav_genre)
 
