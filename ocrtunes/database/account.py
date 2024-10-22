@@ -23,16 +23,32 @@ def get_name(db, user):
 
 def get_data(db, user):
     # Select by id
-    result = db.execute("SELECT name, dob, fav_artist, fav_genre FROM users WHERE id=?", [user]).fetchone()
+    result = db.execute(
+        "SELECT name, dob, fav_artist, fav_genre FROM users WHERE id=?", [user]
+    ).fetchone()
     if result is None:
         return None
     return result
+
+
+def get_fav_artist(db, user):
+    result = db.execute("SELECT fav_artist FROM users WHERE id=?", [user]).fetchone()
+    if result is None:
+        return None
+    return result[0]
 
 
 def set_fav_artist(db, user, artist):
     # Select by id
     db.execute("UPDATE users SET fav_artist=? WHERE id=?", [artist, user])
     db.commit()
+
+
+def get_fav_genre(db, user):
+    result = db.execute("SELECT fav_genre FROM users WHERE id=?", [user]).fetchone()
+    if result is None:
+        return None
+    return result[0]
 
 
 def set_fav_genre(db, user, genre):

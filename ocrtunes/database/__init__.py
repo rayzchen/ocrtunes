@@ -2,12 +2,12 @@ import sqlite3
 import os
 
 directory = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "model"
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "model"
 )
 database_file = os.path.join(directory, "ocrtunes.db")
 schema_file = os.path.join(directory, "schema.sql")
 song_file = os.path.join(directory, "songs.sql")
+
 
 def initialise_db():
     # Check if datbase file exists

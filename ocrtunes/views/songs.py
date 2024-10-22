@@ -74,13 +74,15 @@ class SongsView:
             options = ["p", "n", "q"]
             start = self.page * self.page_length
             i = start
-            for song in self.songs[start: start + self.page_length]:
+            for song in self.songs[start : start + self.page_length]:
                 i += 1
                 print(f"{i}. " + song[1])
                 options.append(str(i))
             print(f"Page {self.page + 1} of {self.total_pages}")
 
-            choice = getchoice("Enter choice (song number / [p]revious / [n]ext / [q]uit): ", options)
+            choice = getchoice(
+                "Enter choice (song number / [p]revious / [n]ext / [q]uit): ", options
+            )
             if choice.isdecimal():
                 song_id = self.songs[int(choice) - 1][0]
                 self.display_song_info(song_id)
@@ -136,7 +138,9 @@ class SongsView:
             return
 
         name = playlist.get_playlist_name(self.ctx.db, playlists[int(choice) - 1])
-        if playlist.check_song_in_playlist(self.ctx.db, playlists[int(choice) - 1], song):
+        if playlist.check_song_in_playlist(
+            self.ctx.db, playlists[int(choice) - 1], song
+        ):
             print(f"Song is already in playlist {name}")
         else:
             playlist.add_song_to_playlist(self.ctx.db, playlists[int(choice) - 1], song)

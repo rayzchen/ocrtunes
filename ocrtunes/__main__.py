@@ -21,13 +21,15 @@ def viewloop():
     profile_view.set_playlist_view(playlist_view)
     profile_view.set_songs_view(songs_view)
 
-    print(textwrap.dedent(
-        r"""
+    print(
+        textwrap.dedent(
+            r"""
          _  __ _ ___       __ __
         / \/  |_) | | ||\||_ (_
         \_/\__| \ | |_|| ||____)
         """
-    ))
+        )
+    )
 
     while True:
         print()

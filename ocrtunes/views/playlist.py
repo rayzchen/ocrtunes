@@ -62,12 +62,16 @@ class PlaylistView:
         elif choice == "3":
             duration = ""
             while True:
-                duration = input("Enter duration in mins (leave empty to quit): ").strip()
+                duration = input(
+                    "Enter duration in mins (leave empty to quit): "
+                ).strip()
                 if not duration.isdecimal():
                     print("Invalid duration!")
                 else:
                     break
-            playlist.create_duration_playlist(self.ctx.db, self.ctx.user, name, int(duration))
+            playlist.create_duration_playlist(
+                self.ctx.db, self.ctx.user, name, int(duration)
+            )
 
     def view_playlist(self, id):
         name = playlist.get_playlist_name(self.ctx.db, id)
@@ -111,12 +115,14 @@ class PlaylistView:
             print(f"Total number of songs: {len(self.songs)}")
             start = self.page * self.page_length
             i = start
-            for song in self.songs[start: start + self.page_length]:
+            for song in self.songs[start : start + self.page_length]:
                 i += 1
                 print(f"{i}. " + song[1])
             print(f"Page {self.page + 1} of {self.total_pages}")
 
-            choice = getchoice("Enter choice ([p]revious / [n]ext / [q]uit): ", ["p", "n", "q"])
+            choice = getchoice(
+                "Enter choice ([p]revious / [n]ext / [q]uit): ", ["p", "n", "q"]
+            )
             if choice == "p":
                 self.page = (self.page - 1) % self.total_pages
             elif choice == "n":
@@ -136,7 +142,9 @@ class PlaylistView:
         print()
         name = playlist.get_playlist_name(self.ctx.db, id)
         print(f"Deleting playlist '{name}'")
-        choice = getchoice("Are you sure you want to delete this playlist? (y/n) ", ["y", "n"])
+        choice = getchoice(
+            "Are you sure you want to delete this playlist? (y/n) ", ["y", "n"]
+        )
         if choice == "y":
             playlist.delete_playlist(self.ctx.db, id)
             print(f"Successfully deleted playlist")
