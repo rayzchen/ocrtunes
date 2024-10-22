@@ -1,5 +1,5 @@
 from ocrtunes.views import getchoice, ExitStack, format_time
-from ocrtunes.database import songs
+from ocrtunes.database import songs, playlist
 import math
 
 
@@ -12,6 +12,7 @@ class SongsView:
         # Pagination variables
         self.page = 0
         self.songs = []
+        self.total_pages = 0
         self.query = ""
 
     def display(self):
@@ -100,3 +101,27 @@ class SongsView:
             self.playlist_add_song(song)
         elif choice == "2":
             return
+
+    def playlist_add_song(self, song):
+        print()
+        options = ["q"]
+        playlists = playlist.get_all_playlists(self.ctx.db, self.ctx.user)
+        if playlists:
+            for i, id in enumerate(playlists):
+                name = playlist.get_playlist_name(self.ctx.db, id)
+                print(f"{i + 1}. {name}")
+                options.append(str(i + 1))
+        else:
+            print("No playlists found")
+            return
+
+        choice = getchoice("Select playlist (or [q]uit): ", options)
+        if choice == "q":
+            return
+
+        name = playlist.get_playlist_name(self.ctx.db, playlists[int(choice) - 1])
+        if playlist.check_song_in_playlist(self.ctx.db, playlists[int(choice) - 1], song):
+            print(f"Song is already in playlist {name}")
+        else:
+            playlist.add_song_to_playlist(self.ctx.db, playlists[int(choice) - 1], song)
+            print(f"Successfully added to '{name}'")
