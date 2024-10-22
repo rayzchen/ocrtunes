@@ -10,9 +10,9 @@ def getchoice(prompt, options):
 
 def format_time(time):
     if time > 3600:
-        return f"{time // 3600}:{time // 60 % 60}:{time % 60}"
+        return f"{time // 3600}:{time // 60 % 60:02}:{time % 60:02}"
     else:
-        return f"{time // 60 % 60}:{time % 60}"
+        return f"{time // 60 % 60}:{time % 60:02}"
 
 
 class UserContext:

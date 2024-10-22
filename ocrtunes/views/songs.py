@@ -7,7 +7,9 @@ class SongsView:
     page_length = 5
 
     def __init__(self, ctx):
+        # Store context as attr
         self.ctx = ctx
+        # Pagination variables
         self.page = 0
         self.songs = []
         self.query = ""

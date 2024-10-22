@@ -2,6 +2,7 @@ from ocrtunes import database
 from ocrtunes.views import UserContext, ExitStack
 from ocrtunes.views.account import AccountView
 from ocrtunes.views.profile import ProfileView
+from ocrtunes.views.playlist import PlaylistView
 from ocrtunes.views.songs import SongsView
 import textwrap
 
@@ -15,7 +16,9 @@ def viewloop():
     # Set up views
     account_view = AccountView(ctx)
     profile_view = ProfileView(ctx)
+    playlist_view = PlaylistView(ctx)
     songs_view = SongsView(ctx)
+    profile_view.set_playlist_view(playlist_view)
     profile_view.set_songs_view(songs_view)
 
     print(textwrap.dedent(

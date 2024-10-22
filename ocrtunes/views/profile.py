@@ -6,9 +6,14 @@ class ProfileView:
     def __init__(self, ctx):
         # Store context as attr
         self.ctx = ctx
+        self.songs_view = None
+        self.playlist_view = None
 
     def set_songs_view(self, songs_view):
         self.songs_view = songs_view
+
+    def set_playlist_view(self, playlist_view):
+        self.playlist_view = playlist_view
 
     def display(self):
         # Show menu choice
@@ -16,14 +21,17 @@ class ProfileView:
         print("You are logged in as", username)
 
         print("1) View profile")
-        print("2) Browse songs")
-        print("3) Log out")
-        choice = getchoice("Enter choice: ", ["1", "2", "3"])
+        print("2) View playlists")
+        print("3) Browse songs")
+        print("4) Log out")
+        choice = getchoice("Enter choice: ", ["1", "2", "3", "4"])
         if choice == "1":
             self.view_profile()
         elif choice == "2":
-            self.songs_view.display()
+            self.playlist_view.display()
         elif choice == "3":
+            self.songs_view.display()
+        elif choice == "4":
             self.ctx.logout()
 
     def view_profile(self):
