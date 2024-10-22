@@ -20,13 +20,16 @@ class SongsView:
         print()
         print("1) View all songs")
         print("2) Search songs")
-        print("3) Exit")
+        print("3) Export artist discography")
+        print("4) Exit")
         choice = getchoice("Enter choice: ", ["1", "2", "3"])
         if choice == "1":
             self.view_all_songs()
         elif choice == "2":
             self.search_songs()
         elif choice == "3":
+            self.export_songs()
+        elif choice == "4":
             return
 
     def view_all_songs(self):
@@ -41,6 +44,19 @@ class SongsView:
         self.query = input("Enter query: ").strip()
         self.setup_pages(songs.search_songs(self.ctx.db, self.query))
         self.view_songs()
+
+    def export_songs(self):
+        print()
+        artist = input("Enter artist (leave empty to quit): ").strip()
+        if not artist:
+            return
+        song_list = songs.get_artist_songs(self.ctx.db, artist)
+        if not song_list:
+            print(f"Artist '{artist}' not found")
+        with open(artist + ".txt", "w+") as f:
+            for song in song_list:
+                f.write(song + "\n")
+        print(f"Exported list of songs by '{artist}'")
 
     def view_songs(self):
         self.page = 0

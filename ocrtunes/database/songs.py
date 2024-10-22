@@ -49,3 +49,10 @@ def get_genre_count(db, genre):
     if result is None:
         return 0
     return result[0]
+
+
+def get_artist_songs(db, artist):
+    result = db.execute("SELECT title FROM songs WHERE artist = ?", [artist]).fetchall()
+    if result is None:
+        return []
+    return [row[0] for row in result]
